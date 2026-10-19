@@ -24,7 +24,6 @@ from sklearn.dummy import DummyClassifier
 from sklearn.metrics import roc_auc_score, average_precision_score, f1_score, classification_report
 import os, json
 from matplotlib.patches import Patch
-os.makedirs('figs', exist_ok=True)
 mpl.rcParams.update({'font.family': 'DejaVu Sans', 'font.size': 9, 'axes.spines.top': False,
     'axes.spines.right': False, 'axes.edgecolor': '#8a8984', 'axes.labelcolor': '#52514e',
     'xtick.color': '#52514e', 'ytick.color': '#52514e', 'axes.grid': True, 'grid.color': '#e8e7e3',
@@ -38,7 +37,7 @@ STATS = {}
 # ## 1. Load & clean
 
 # %%
-df = pd.read_csv('data/nyc311_infra_2025.csv', low_memory=False, parse_dates=['created_date', 'closed_date'])
+df = pd.read_csv('nyc311_infra_2025.csv', low_memory=False, parse_dates=['created_date', 'closed_date'])
 STATS['rows_raw'] = len(df)
 df = df.drop_duplicates('unique_key')
 df = df[df.borough != 'Unspecified']
@@ -94,7 +93,7 @@ for y, v in enumerate(top.values):
 ax.set_title('Top 12 infrastructure issues, NYC 311, 2025')
 ax.set_xlabel('Complaints'); ax.grid(axis='y', visible=False)
 ax.legend(handles=[Patch(color=c, label=t) for t, c in TIER_COL.items()], frameon=False, loc='lower right', title='Hazard tier', title_fontsize=8)
-fig.tight_layout(); fig.savefig('figs/fig1_top_issues.png'); plt.show()
+fig.tight_layout(); fig.savefig('fig1_top_issues.png'); plt.show()
 STATS['top_issues'] = df.issue.value_counts().head(5).to_dict()
 
 # %%
@@ -106,14 +105,14 @@ for col, c in zip(by_type.columns, [BLUE, ORANGE, AQUA]):
     ax.text(12.15, by_type[col].iloc[-1] + {'Sewer': 180, 'Sidewalk Condition': -180}.get(col, 0), col, color='#52514e', fontsize=7.5, va='center')
 ax.set_xticks(range(1, 13)); ax.set_xticklabels(['J','F','M','A','M','J','J','A','S','O','N','D'])
 ax.set_xlim(0.7, 14.3); ax.set_title('Monthly complaints by category, 2025'); ax.set_ylabel('Complaints')
-fig.tight_layout(); fig.savefig('figs/fig2_monthly.png'); plt.show()
+fig.tight_layout(); fig.savefig('fig2_monthly.png'); plt.show()
 STATS['pothole_by_month'] = df[df.issue == 'Pothole'].groupby('month').size().to_dict()
 
 # %% [markdown]
 # ## 4. Rainfall ↔ flood complaints
 
 # %%
-w = pd.read_csv('data/nyc_centralpark_2025.csv', parse_dates=['DATE']).rename(columns={'DATE': 'date', 'PRCP': 'rain_mm'})
+w = pd.read_csv('nyc_centralpark_2025.csv', parse_dates=['DATE']).rename(columns={'DATE': 'date', 'PRCP': 'rain_mm'})
 daily = df.groupby('date').agg(flood=('flood', 'sum'), total=('unique_key', 'size')).reset_index()
 daily = daily.merge(w[['date', 'rain_mm']], on='date', how='left').fillna({'rain_mm': 0})
 daily['rain_bin'] = pd.cut(daily.rain_mm, [-0.1, 0, 5, 20, 1000], labels=['Dry (0)', '0–5 mm', '5–20 mm', '>20 mm'])
@@ -131,7 +130,7 @@ for i, (m, n) in enumerate(zip(rb['mean'], rb['size'])):
 ax.set_xticks(range(len(rb))); ax.set_xticklabels(rb.index.astype(str))
 ax.set_ylim(0, rb['mean'].max() * 1.4)
 ax.set_title('Flood-related complaints per day vs. daily rainfall'); ax.set_ylabel('Avg complaints / day'); ax.set_xlabel('Central Park daily precipitation')
-fig.tight_layout(); fig.savefig('figs/fig3_rain_flood.png'); plt.show()
+fig.tight_layout(); fig.savefig('fig3_rain_flood.png'); plt.show()
 
 # %% [markdown]
 # ## 5. Resolution time by hazard tier — is the queue already prioritised?
@@ -150,7 +149,7 @@ bp = ax.boxplot(data, orientation='horizontal', tick_labels=order, showfliers=Fa
 for p, t in zip(bp['boxes'], order): p.set_facecolor(TIER_COL[t]); p.set_alpha(0.85)
 ax.set_xlabel('Days from complaint to closure (outliers hidden)'); ax.set_title('Resolution time by hazard tier')
 ax.grid(axis='y', visible=False)
-fig.tight_layout(); fig.savefig('figs/fig4_resolution.png'); plt.show()
+fig.tight_layout(); fig.savefig('fig4_resolution.png'); plt.show()
 
 # %% [markdown]
 # ## 6. Hotspots — do problems recur at the same spot?
@@ -178,7 +177,7 @@ ax.set_aspect(1 / np.cos(np.radians(40.7))); ax.set_xticks([]); ax.set_yticks([]
 for s in ax.spines.values(): s.set_visible(False)
 cb = fig.colorbar(sc, ax=ax, shrink=0.6, label='Complaints per 110 m cell (log10)')
 ax.set_title('Complaint hotspots, NYC 2025')
-fig.tight_layout(); fig.savefig('figs/fig5_hotspots.png'); plt.show()
+fig.tight_layout(); fig.savefig('fig5_hotspots.png'); plt.show()
 
 # %% [markdown]
 # ## 7. First experiment — predicting recurrent hotspots (proactive maintenance)
@@ -227,4 +226,4 @@ STATS['precision_top10'] = round(float(test.recur30[best_pr >= thr].mean()), 3)
 print('precision@top10%', STATS['precision_top10'])
 
 # %%
-json.dump(STATS, open('figs/stats.json', 'w'), indent=1, default=str, ensure_ascii=False)
+json.dump(STATS, open('stats.json', 'w'), indent=1, default=str, ensure_ascii=False)
