@@ -1,0 +1,140 @@
+{
+ "rows_raw": 132653,
+ "negative_res": 9,
+ "rows_clean": 132511,
+ "missing_pct": {
+  "closed_date": 5.6,
+  "latitude": 15.0,
+  "location_type": 48.8,
+  "incident_zip": 0.5,
+  "resolution_description": 2.6
+ },
+ "tier_share": {
+  "High": 0.537,
+  "Routine": 0.275,
+  "Critical": 0.188
+ },
+ "n_issue_types": 52,
+ "top_issues": {
+  "Pothole": 38316,
+  "Trees and Sidewalks Program": 10394,
+  "Broken Sidewalk": 9988,
+  "Cave-in": 9641,
+  "Sidewalk Violation": 9427
+ },
+ "pothole_by_month": {
+  "1": 3685,
+  "2": 3554,
+  "3": 4294,
+  "4": 3872,
+  "5": 4151,
+  "6": 4053,
+  "7": 2704,
+  "8": 2516,
+  "9": 2384,
+  "10": 2315,
+  "11": 1889,
+  "12": 2899
+ },
+ "flood_by_rain": {
+  "Dry (0)": 41.8,
+  "0–5 mm": 46.5,
+  "5–20 mm": 84.2,
+  ">20 mm": 237.2
+ },
+ "days_by_rain": {
+  "Dry (0)": 244,
+  "0–5 mm": 68,
+  "5–20 mm": 40,
+  ">20 mm": 13
+ },
+ "corr_rain_flood": 0.47,
+ "top_flood_days": [
+  [
+   "2025-10-30",
+   1650,
+   46.5
+  ],
+  [
+   "2025-07-31",
+   500,
+   8.1
+  ],
+  [
+   "2025-10-31",
+   312,
+   0.0
+  ],
+  [
+   "2025-12-19",
+   299,
+   29.5
+  ],
+  [
+   "2025-08-01",
+   238,
+   0.0
+  ]
+ ],
+ "res_by_tier": {
+  "Critical": {
+   "count": 24381.0,
+   "50%": 0.5,
+   "90%": 5.6
+  },
+  "High": {
+   "count": 67645.0,
+   "50%": 1.2,
+   "90%": 10.9
+  },
+  "Routine": {
+   "count": 33115.0,
+   "50%": 5.9,
+   "90%": 123.0
+  }
+ },
+ "res_issue_sel": {
+  "Cave-in": 2.3,
+  "Sidewalk Collapsed": 3.4,
+  "Manhole Cover Missing": 0.1,
+  "Street Flooding": 0.6,
+  "Sewer Backup": 0.1,
+  "Pothole": 0.9,
+  "Broken Sidewalk": 10.9,
+  "Catch Basin Clogged/Flooding": 1.0
+ },
+ "n_cells": 34821,
+ "share_cells_ge5": 0.209,
+ "share_complaints_top10pct_cells": 0.337,
+ "n_train": 76439,
+ "n_test": 27940,
+ "pos_rate_train": 0.416,
+ "pos_rate_test": 0.399,
+ "model_results": [
+  {
+   "Model": "Baseline (majority)",
+   "ROC-AUC": 0.5,
+   "PR-AUC": 0.399,
+   "F1": 0.0
+  },
+  {
+   "Model": "Logistic Regression",
+   "ROC-AUC": 0.67,
+   "PR-AUC": 0.586,
+   "F1": 0.54
+  },
+  {
+   "Model": "Random Forest",
+   "ROC-AUC": 0.673,
+   "PR-AUC": 0.584,
+   "F1": 0.571
+  },
+  {
+   "Model": "Hist. Gradient Boosting",
+   "ROC-AUC": 0.672,
+   "PR-AUC": 0.584,
+   "F1": 0.561
+  }
+ ],
+ "precision_top10": 0.716
+}
