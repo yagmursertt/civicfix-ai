@@ -9,16 +9,15 @@ hazard tier, and a gradient-boosting model adds recurrence risk and rainfall con
 
 ## Assignment 1 — EDA & first experiment
 - `CivicFix_EDA.ipynb` — cleaning, descriptive statistics, rainfall link, resolution times, hotspots,
-  Istanbul (İSKİ) context and the first recurrence-prediction models (executed, with outputs).
+  and the first recurrence-prediction models (executed, with outputs).
 - `civicfix_eda.py` — same analysis as a script. `figs/` — all figures and `stats.json`.
 
 ## Data
-| Dataset | Source | In repo |
-|---|---|---|
-| NYC 311 Service Requests 2025 (Street, Sidewalk, Sewer, Root/Sewer/Sidewalk) — 132,653 rows | NYC Open Data `erm2-nwe9` | run `./fetch_data.sh` (~50 MB) |
-| Daily precipitation, Central Park (USW00094728), 2025 | NOAA NCEI GHCN-Daily | `data/nyc_centralpark_2025.csv` |
-| İSKİ sewer/channel faults by district & neighbourhood, 2023 | İBB Açık Veri | `data/iski_kanal_2023.xlsx` |
-| İBB Çözüm Merkezi (153) applications by sector, 2022–2025 | İBB Açık Veri | `data/ibb153_sektorel.xlsx` |
+**Dataset:** NYC 311 Service Requests (NYC Open Data, `erm2-nwe9`) — all 2025 complaints of type Street Condition,
+Sidewalk Condition, Sewer and Root/Sewer/Sidewalk Condition (132,653 rows). Download with `./fetch_data.sh` (~50 MB).
+
+Weather feature: daily precipitation for Central Park (NOAA GHCN-Daily, USW00094728), joined by date —
+`data/nyc_centralpark_2025.csv`.
 
 ## Run
 ```bash

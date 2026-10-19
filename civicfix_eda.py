@@ -7,12 +7,10 @@
 # recurring hotspots — the signals CivicFix AI will use to prioritise municipal work.
 #
 # Data
-# 1. NYC 311 Service Requests (NYC Open Data, `erm2-nwe9`) — all 2025 complaints of type
+# NYC 311 Service Requests (NYC Open Data, `erm2-nwe9`) — all 2025 complaints of type
 #    Street Condition, Sidewalk Condition, Sewer, Root/Sewer/Sidewalk Condition (132,653 rows).
 #    Used because it is the largest open, record-level, labelled municipal complaint log.
-# 2. NOAA GHCN-Daily, Central Park station USW00094728 — daily precipitation 2025.
-# 3. İBB Open Data — İSKİ sewer/channel fault reports by district & neighbourhood (2023),
-#    and İBB Çözüm Merkezi (153) sectoral shares 2022–2025 — the Istanbul context.
+# Weather feature: NOAA GHCN-Daily, Central Park station USW00094728 — daily precipitation 2025, joined by date.
 
 # %%
 import pandas as pd, numpy as np, matplotlib.pyplot as plt, matplotlib as mpl
@@ -25,6 +23,7 @@ from sklearn.ensemble import RandomForestClassifier, HistGradientBoostingClassif
 from sklearn.dummy import DummyClassifier
 from sklearn.metrics import roc_auc_score, average_precision_score, f1_score, classification_report
 import os, json
+from matplotlib.patches import Patch
 os.makedirs('figs', exist_ok=True)
 mpl.rcParams.update({'font.family': 'DejaVu Sans', 'font.size': 9, 'axes.spines.top': False,
     'axes.spines.right': False, 'axes.edgecolor': '#8a8984', 'axes.labelcolor': '#52514e',
@@ -94,7 +93,6 @@ for y, v in enumerate(top.values):
     ax.text(v + 300, y, f'{v:,}', va='center', fontsize=7.5, color='#52514e')
 ax.set_title('Top 12 infrastructure issues, NYC 311, 2025')
 ax.set_xlabel('Complaints'); ax.grid(axis='y', visible=False)
-from matplotlib.patches import Patch
 ax.legend(handles=[Patch(color=c, label=t) for t, c in TIER_COL.items()], frameon=False, loc='lower right', title='Hazard tier', title_fontsize=8)
 fig.tight_layout(); fig.savefig('figs/fig1_top_issues.png'); plt.show()
 STATS['top_issues'] = df.issue.value_counts().head(5).to_dict()
@@ -112,7 +110,7 @@ fig.tight_layout(); fig.savefig('figs/fig2_monthly.png'); plt.show()
 STATS['pothole_by_month'] = df[df.issue == 'Pothole'].groupby('month').size().to_dict()
 
 # %% [markdown]
-# ## 4. Rainfall ↔ flood complaints (the Istanbul flood link)
+# ## 4. Rainfall ↔ flood complaints
 
 # %%
 w = pd.read_csv('data/nyc_centralpark_2025.csv', parse_dates=['DATE']).rename(columns={'DATE': 'date', 'PRCP': 'rain_mm'})
@@ -183,29 +181,7 @@ ax.set_title('Complaint hotspots, NYC 2025')
 fig.tight_layout(); fig.savefig('figs/fig5_hotspots.png'); plt.show()
 
 # %% [markdown]
-# ## 7. Istanbul context — İSKİ sewer/channel faults by district (2023)
-
-# %%
-isk = pd.read_excel('data/iski_kanal_2023.xlsx')
-isk_d = isk.groupby('ILCE')[['GELEN_ARIZA', 'GIDERILEN ARIZA']].sum().sort_values('GELEN_ARIZA', ascending=False)
-STATS['iski_total'] = int(isk_d.GELEN_ARIZA.sum()); STATS['iski_resolved_pct'] = round(float(isk_d['GIDERILEN ARIZA'].sum() / isk_d.GELEN_ARIZA.sum() * 100), 1)
-STATS['iski_top5'] = isk_d.GELEN_ARIZA.head(5).to_dict()
-flood_d = ['SARIYER', 'EYÜPSULTAN', 'BEYKOZ', 'KAĞITHANE', 'BAŞAKŞEHİR']
-STATS['iski_flood_d'] = {d: int(isk_d.loc[d, 'GELEN_ARIZA']) for d in flood_d if d in isk_d.index}
-STATS['iski_flood_rank'] = {d: int(list(isk_d.index).index(d) + 1) for d in flood_d if d in isk_d.index}
-STATS['iski_n_mahalle'] = int(len(isk)); STATS['iski_n_ilce'] = int(isk_d.shape[0])
-print(STATS['iski_top5'], STATS['iski_flood_rank'])
-t15 = isk_d.head(15)[::-1]
-fig, ax = plt.subplots(figsize=(6.2, 3.4))
-ax.barh(t15.index.str.title(), t15.GELEN_ARIZA, color=[ORANGE if d in flood_d else BLUE for d in t15.index], height=0.7)
-ax.set_title('İSKİ sewer fault reports by district, Istanbul 2023')
-ax.set_xlabel('Fault reports'); ax.grid(axis='y', visible=False)
-ax.legend(handles=[Patch(color=ORANGE, label='Hit by 14–15 Oct 2026 flood'), Patch(color=BLUE, label='Other district')], frameon=False, loc='lower right')
-fig.tight_layout(); fig.savefig('figs/fig6_iski.png'); plt.show()
-sek = pd.read_excel('data/ibb153_sektorel.xlsx'); STATS['ibb153'] = sek.set_index('YIL').to_dict(orient='index')
-
-# %% [markdown]
-# ## 8. First experiment — predicting recurrent hotspots (proactive maintenance)
+# ## 7. First experiment — predicting recurrent hotspots (proactive maintenance)
 # Target: will this location produce another infrastructure complaint within 30 days?
 # Only information available at complaint time is used. Chronological split: train Jan–Aug, test Sep–Nov
 # (December excluded because its 30-day future is not observed).
