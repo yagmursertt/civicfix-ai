@@ -1,0 +1,86 @@
+{
+  "n": 25,
+  "accuracy": 0.96,
+  "macro_f1": 0.971,
+  "per_class": {
+    "critical": {
+      "precision": 0.8888888888888888,
+      "recall": 1.0,
+      "f1-score": 0.9411764705882353,
+      "support": 8.0
+    },
+    "high": {
+      "precision": 1.0,
+      "recall": 0.8888888888888888,
+      "f1-score": 0.9411764705882353,
+      "support": 9.0
+    },
+    "routine": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 3.0
+    },
+    "not_actionable": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 5.0
+    },
+    "accuracy": 0.96,
+    "macro avg": {
+      "precision": 0.9722222222222222,
+      "recall": 0.9722222222222222,
+      "f1-score": 0.9705882352941176,
+      "support": 25.0
+    },
+    "weighted avg": {
+      "precision": 0.9644444444444444,
+      "recall": 0.96,
+      "f1-score": 0.96,
+      "support": 25.0
+    }
+  },
+  "confusion_matrix": [
+    [
+      8,
+      0,
+      0,
+      0
+    ],
+    [
+      1,
+      8,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      3,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      5
+    ]
+  ],
+  "class_order": [
+    "critical",
+    "high",
+    "routine",
+    "not_actionable"
+  ],
+  "method": "GPT-6 in-chat single-pass classification on anonymized paraphrases; not external API or blind independent validation",
+  "reference": "provisional labels assigned by project author; not independent human gold standard",
+  "sources": "user attributed 7 to Şikayetvar, 18 to Ekşi Sözlük; individual URLs and timestamps not verified",
+  "caveats": [
+    "small convenience sample",
+    "paraphrased rather than verbatim",
+    "labels and predictions not independent",
+    "some non-municipal observations",
+    "reported allegations not fact checked"
+  ]
+}

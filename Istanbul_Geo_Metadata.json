@@ -1,0 +1,13 @@
+{
+  "source": "User-supplied Copernicus GLO-30 DEM",
+  "bbox": [
+    28.911805544444462,
+    41.03097223333333,
+    29.04236110000002,
+    41.10097223333333
+  ],
+  "crs": "EPSG:4326",
+  "osm": "99 geometries read; mapped waterways only (covered/culverted channels may be missing)",
+  "formula": "terrain=100*(0.55*clip((15-local_rel_m)/15)+0.45*clip((12-slope_deg)/12)); with OSM: score=.75*terrain+25*exp(-distance_m/100)",
+  "caution": "Not flood probability, no flow accumulation or independent Istanbul validation."
+}

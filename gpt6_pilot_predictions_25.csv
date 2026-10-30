@@ -1,0 +1,26 @@
+﻿id,gpt6_predicted_issue,gpt6_predicted_urgency,provisional_reference_urgency,agreement,test_method
+TR01,flooding,critical,critical,1,GPT-6 in-chat classification of anonymized paraphrase; no external API
+TR02,road_hazard,high,high,1,GPT-6 in-chat classification of anonymized paraphrase; no external API
+TR03,sewer_backup,critical,critical,1,GPT-6 in-chat classification of anonymized paraphrase; no external API
+TR04,flooding,critical,critical,1,GPT-6 in-chat classification of anonymized paraphrase; no external API
+TR05,sewer_backup,critical,critical,1,GPT-6 in-chat classification of anonymized paraphrase; no external API
+TR06,non_municipal,not_actionable,not_actionable,1,GPT-6 in-chat classification of anonymized paraphrase; no external API
+TR07,road_hazard,high,high,1,GPT-6 in-chat classification of anonymized paraphrase; no external API
+TR08,flooding,high,high,1,GPT-6 in-chat classification of anonymized paraphrase; no external API
+TR09,transport_disruption,routine,routine,1,GPT-6 in-chat classification of anonymized paraphrase; no external API
+TR10,power_hazard,high,high,1,GPT-6 in-chat classification of anonymized paraphrase; no external API
+TR11,road_hazard,high,high,1,GPT-6 in-chat classification of anonymized paraphrase; no external API
+TR12,transport_disruption,routine,routine,1,GPT-6 in-chat classification of anonymized paraphrase; no external API
+TR13,flood_risk,high,high,1,GPT-6 in-chat classification of anonymized paraphrase; no external API
+TR14,general_comment,not_actionable,not_actionable,1,GPT-6 in-chat classification of anonymized paraphrase; no external API
+TR15,transport_disruption,routine,routine,1,GPT-6 in-chat classification of anonymized paraphrase; no external API
+TR16,flooding,critical,critical,1,GPT-6 in-chat classification of anonymized paraphrase; no external API
+TR17,flooding,high,high,1,GPT-6 in-chat classification of anonymized paraphrase; no external API
+TR18,power_hazard,critical,critical,1,GPT-6 in-chat classification of anonymized paraphrase; no external API
+TR19,flooding,critical,critical,1,GPT-6 in-chat classification of anonymized paraphrase; no external API
+TR20,flooding,critical,critical,1,GPT-6 in-chat classification of anonymized paraphrase; no external API
+TR21,flood_risk,high,high,1,GPT-6 in-chat classification of anonymized paraphrase; no external API
+TR22,road_hazard,critical,high,0,GPT-6 in-chat classification of anonymized paraphrase; no external API
+TR23,general_comment,not_actionable,not_actionable,1,GPT-6 in-chat classification of anonymized paraphrase; no external API
+TR24,general_comment,not_actionable,not_actionable,1,GPT-6 in-chat classification of anonymized paraphrase; no external API
+TR25,general_comment,not_actionable,not_actionable,1,GPT-6 in-chat classification of anonymized paraphrase; no external API
